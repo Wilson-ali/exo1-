@@ -1,0 +1,52 @@
+from itertools import product
+
+def evaluate_function(inputs, function):
+    return [function(*inp) for inp in inputs]
+
+def get_truth_table(inputs, outputs):
+    print("Table de vérité:")
+    for inp, out in zip(inputs, outputs):
+        print(inp, ":", out)
+
+def get_first_canonical_form(inputs, outputs):
+    first_canonical = []
+    for i, output in enumerate(outputs):
+        if output == 1:
+            term = " & ".join([f"{'~' if inp == 0 else ''}x{i}" for i, inp in enumerate(inputs)])
+            first_canonical.append(term)
+    if first_canonical:
+        print("\nPremière forme canonique:", " | ".join(first_canonical))
+    else:
+        print("\nPremière forme canonique: 0")
+
+def get_second_canonical_form(inputs, outputs):
+    second_canonical = []
+    for i, output in enumerate(outputs):
+        if output == 0:
+            term = " | ".join([f"{'~' if inp == 1 else ''}x{i}" for i, inp in enumerate(inputs)])
+            second_canonical.append(term)
+    if second_canonical:
+        print("\nSeconde forme canonique:", " & ".join(second_canonical))
+    else:
+        print("\nSeconde forme canonique: 1")
+
+def main():
+    # Définir la fonction (ex: fonction AND à deux entrées)
+    def my_function(A, B):
+        return A & B
+
+    # Générer toutes les combinaisons possibles de valeurs binaires pour les entrées
+    inputs = list(product([0, 1], repeat=2))
+
+    # Évaluer la fonction pour chaque combinaison d'entrées
+    outputs = evaluate_function(inputs, my_function)
+
+    # Afficher la table de vérité
+    get_truth_table(inputs, outputs)
+
+    # Obtenir les formes canoniques
+    get_first_canonical_form(inputs, outputs)
+    get_second_canonical_form(inputs, outputs)
+
+if __name__ == "__main__":
+    main()
